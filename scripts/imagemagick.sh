@@ -1,5 +1,20 @@
 #!/bin/sh
 
+if which convert >/dev/null; then
+	echo 'Great, ImageMagick is already installed.'
+	exit 0
+fi
+
+if which brew >/dev/null; then
+	echo 'Installing ImageMagick via HomeBrew...'
+	brew update
+	brew install imagemagick
+	brew install pngcrush
+	exit 0
+fi
+
+echo 'Installing ImageMagick...'
+
 [ ! -d /usr/local/src ] && sudo mkdir /usr/local/src
 
 if ! which wget >/dev/null; then
@@ -13,19 +28,6 @@ if ! which wget >/dev/null; then
 	sudo make install
 	cd /usr/local/src
 fi
-
-if which convert >/dev/null; then
-	echo 'Great, ImageMagick is already installed.'
-	exit 0
-fi
-
-if which brew >/dev/null; then
-	echo 'Installing ImageMagick via HomeBrew...'
-	brew install imagemagick
-	exit 0
-fi
-
-echo 'Installing ImageMagick...'
 
 # prerequisite packages
 wget http://nongnu.askapache.com/freetype/freetype-2.3.9.tar.gz
